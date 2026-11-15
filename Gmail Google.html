@@ -1,0 +1,318 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Account Registration</title>
+  <!-- Google Fonts & Tailwind CSS for modern Google UI styling -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f0f4f9;
+      color: #1f1f1f;
+    }
+
+    /* Google Focus State Ring */
+    input:focus, select:focus, textarea:focus {
+      outline: none !important;
+      border-color: #0b57d0 !important;
+      box-shadow: 0 0 0 2px #0b57d0 !important;
+    }
+
+    /* Custom Fieldset Border */
+    fieldset {
+      border: 1px solid #c4c7c5 !important;
+      border-radius: 12px;
+      padding: 24px 20px 16px 20px !important;
+      background: #ffffff;
+      transition: border-color 0.2s ease;
+    }
+    fieldset:focus-within {
+      border-color: #0b57d0 !important;
+    }
+
+    /* Custom Legend Style */
+    legend {
+      color: #0b57d0;
+      font-weight: 500;
+      font-size: 1.25rem;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Target User Inputs within original layout */
+    p {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #444746;
+      margin-bottom: 4px;
+    }
+
+    /* Inline style over-ride for exact tag structure */
+    input[name="firstName"],
+    input[name="lastName"],
+    input[type="email"],
+    input[type="date"],
+    select,
+    textarea {
+      display: block;
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px 14px;
+      border: 1px solid #747775;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #1f1f1f;
+      background-color: #fff;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    /* Inline radio option styling */
+    input[type="radio"] {
+      accent-color: #0b57d0;
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+
+    /* Google Button Styling */
+    button[type="submit"] {
+      background-color: #0b57d0;
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.25px;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0842a0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    button[type="submit"]:active {
+      background-color: #062e6f;
+    }
+
+    /* Modal Animation */
+    .modal-enter {
+      animation: popIn 0.3s ease-out forwards;
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-center items-center p-4">
+
+  <!-- Header Branding Container -->
+  <div class="w-full max-w-md text-center mb-6">
+    <div class="flex justify-center items-center gap-2 mb-2">
+      <!-- Google Logo SVG -->
+      <svg class="h-8" viewBox="0 0 24 24" width="96" height="32">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+      </svg>
+    </div>
+    <h1 class="text-2xl font-normal text-gray-800">Sign up with Google</h1>
+    <p class="text-sm text-gray-600 mt-1">Fill out your personal information below</p>
+  </div>
+
+  <!-- Main Card Container -->
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-md p-6 sm:p-8 border border-gray-100">
+
+    <!-- USER FORM START (Exact code preserved inside) -->
+    <form id="googleForm">
+      <fieldset>
+        <legend>
+          <!-- Gmail SVG Icon attached next to legend -->
+          <svg class="w-6 h-6 inline-block" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M20,18e1 C20.552,18 21,17.552 21,17 L21,7 C21,6.448 20.552,6 20,6 L19,6 L19,16 L12,11 L5,16 L5,6 L4,6 C3.448,6 3,6.448 3,7 L3,17 C3,17.552 3.448,18 4,18 L20,18 Z" opacity="0"/>
+            <path fill="#EA4335" d="M20,6 L12,13 L4,6 L3,6 C2.45,6 2,6.45 2,7 L2,17 C2,17.55 2.45,18 3,18 L5,18 L5,9.5 L12,15 L19,9.5 L19,18 L21,18 C21.55,18 22,17.55 22,17 L22,7 C22,6.45 21.55,6 21,6 L20,6 Z"/>
+            <path fill="#34A853" d="M2,17 C2,17.55 2.45,18 3,18 L5,18 L5,9.5 L2,7.25 L2,17 Z"/>
+            <path fill="#4285F4" d="M22,17 C22,17.55 21.55,18 21,18 L19,18 L19,9.5 L22,7.25 L22,17 Z"/>
+            <path fill="#FBBC04" d="M5,6 L12,11.5 L19,6 L21,6 C21.55,6 22,6.45 22,7 L22,7.25 L19,9.5 L12,15 L5,9.5 L2,7.25 L2,7 C2,6.45 2.45,6 3,6 L5,6 Z"/>
+          </svg>
+          gmailgoogle
+        </legend>
+         
+   
+  <p>
+          <label>
+            Salutation
+            <br />
+            <select name="salutation">
+              <option>--None--</option>
+              <option>Mr.</option>
+              <option>Ms.</option>
+              <option>Mrs.</option>
+              <option>Dr.</option>
+              <option>Prof.</option>
+            </select>
+          </label>
+        </p>
+   
+   
+         
+   
+  <p>
+          <label>First name: <input name="firstName" /></label>
+        </p>
+   
+   
+         
+   
+  <p>
+          <label>Last name: <input name="lastName" /></label>
+        </p>
+   
+   
+         
+   
+  <p>
+          Gender :
+          <label><input type="radio" name="gender" value="male" /> Male</label>
+          <label><input type="radio" name="gender" value="female" /> Female</label>
+        </p>
+   
+   
+         
+   
+  <p>
+          <label>Email:<input type="email" name="email" /></label>
+        </p>
+   
+   
+         
+   
+  <p>
+          <label>Date of Birth:<input type="date" name="birthDate"></label>
+        </p>
+   
+   
+         
+   
+  <p>
+          <label>
+            Address :
+            <br />
+            <textarea name="address" cols="30" rows="3"></textarea>
+          </label>
+        </p>
+   
+   
+         
+   
+  <p>
+          <button type="submit">Submit</button>
+        </p>
+   
+   
+       </fieldset>
+    </form>
+    <!-- USER FORM END -->
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-8 text-center text-xs text-gray-500 flex gap-4">
+    <a href="#" class="hover:underline">Privacy</a>
+    <a href="#" class="hover:underline">Terms</a>
+    <a href="#" class="hover:underline">Help</a>
+  </footer>
+
+  <!-- Interactive Google Modal Popup for Submission Result -->
+  <div id="successModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl modal-enter text-center border border-gray-100">
+      
+      <!-- Checkmark Animated Icon -->
+      <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-10 h-10 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+
+      <h3 class="text-xl font-semibold text-gray-900 mb-1">Details Submitted!</h3>
+      <p class="text-xs text-gray-500 mb-6">Your Gmail Google account details have been recorded.</p>
+
+      <!-- Submitted Data Details List -->
+      <div class="text-left bg-gray-50 rounded-xl p-4 text-sm space-y-2 mb-6 border border-gray-200/60" id="modalDataDetails">
+        <!-- Filled dynamically by JavaScript -->
+      </div>
+
+      <button id="closeModalBtn" type="button" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full text-sm transition-colors">
+        Done
+      </button>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('googleForm');
+      const modal = document.getElementById('successModal');
+      const modalDetails = document.getElementById('modalDataDetails');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Extract Form Data
+        const formData = new FormData(form);
+        const salutation = formData.get('salutation') !== '--None--' ? formData.get('salutation') : '';
+        const firstName = formData.get('firstName') || 'N/A';
+        const lastName = formData.get('lastName') || '';
+        const gender = formData.get('gender') || 'Not specified';
+        const email = formData.get('email') || 'N/A';
+        const birthDate = formData.get('birthDate') || 'N/A';
+        const address = formData.get('address') || 'N/A';
+
+        const fullName = `${salutation} ${firstName} ${lastName}`.trim();
+
+        // Populate Modal Content
+        modalDetails.innerHTML = `
+          <div><span class="text-gray-500 text-xs block">Full Name</span> <strong class="text-gray-800">${fullName || 'N/A'}</strong></div>
+          <div><span class="text-gray-500 text-xs block">Email</span> <strong class="text-gray-800">${email}</strong></div>
+          <div class="grid grid-cols-2 gap-2">
+            <div><span class="text-gray-500 text-xs block">Gender</span> <strong class="text-gray-800 capitalize">${gender}</strong></div>
+            <div><span class="text-gray-500 text-xs block">Birth Date</span> <strong class="text-gray-800">${birthDate}</strong></div>
+          </div>
+          <div><span class="text-gray-500 text-xs block">Address</span> <strong class="text-gray-800">${address}</strong></div>
+        `;
+
+        // Show Modal
+        modal.classList.remove('hidden');
+      });
+
+      closeModalBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        form.reset();
+      });
+    });
+  </script>
+</body>
+</html>
+```
